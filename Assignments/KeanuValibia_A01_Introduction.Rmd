@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1: Introduction"
-author: "Student Name"
+author: "Keanu Valibia"
 output: pdf_document
 ---
 
@@ -22,15 +22,15 @@ Enter answers to the questions just below the >Answer: prompt.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: 
+> Answer: I have no previous experience using Git. In the previous semester, I used R for the first time in the ENV710 with Betsy. Prior to coming to Duke, I worked primarily in tech on ETL (database migrations) projects across health insurance and advertising. Perhaps understandably, I was not interested in pursuing a career in ETL. However, I do have some exposure to using SQL in the workplace.
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: 
+> Answer: Based on my previous experiences in tech, I generally feel confident in learning new languages and ability navigate increasingly technical topics.
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: 
+> Answer: I've always been really bad at stats. I want to take this semester to focus on improving those skills, especially as they relate to time series.
 
 
 ## 2) GitHub
