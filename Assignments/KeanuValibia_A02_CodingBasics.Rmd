@@ -119,9 +119,10 @@ resultcheck2 <- function(result) {
   }
 }
 
-for (i in length(test_scores)) { # For every value in 'test_scores' vector...
-  resultcheck2(test_scores) # Applies 'resultcheck' function and print results
-}
+#  for (i in length(test_scores)) { For every value in 'test_scores' vector...
+#   resultcheck2(test_scores) Applies 'resultcheck' function and print results
+# }
+# 
 # But this fails because this logic only tests for the first component in the vector
 
 # Below logic resolves the error by explicitly asking to test individual components in 'test_scores' until it reaches end of length
