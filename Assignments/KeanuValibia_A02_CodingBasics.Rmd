@@ -105,8 +105,8 @@ df_student_test_results
 
 # Create function using 'ifelse' logic
 resultcheck <- function(result) {
-  # If 'result < 50' is TRUE, print "FALSE."
-  print(ifelse(result < 50, FALSE, TRUE))  Otherwise, print "TRUE"
+  # If 'result < 50' is TRUE, print "FALSE...."
+  print(ifelse(result < 50, FALSE, TRUE))  # ...otherwise, print "TRUE"
 }
 
 for (i in length(test_scores)) { # For every value in 'test_scores' vector...
