@@ -87,7 +87,9 @@ test_results <- c(TRUE,FALSE,TRUE,FALSE)
 test_results
 
 # Create data frame, combining above three vectors
-df_student_test_results <- data.frame("StudentName" = studentnames, "TestScore" = test_scores, "TestResult" = test_results) 
+df_student_test_results <- data.frame("StudentName" = studentnames,
+  "TestScore" = test_scores, 
+  "TestResult" = test_results) 
 
 # Call data frame I just created
 df_student_test_results
