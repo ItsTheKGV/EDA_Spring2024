@@ -39,13 +39,15 @@ genseq
 
 #2. 
 
-# Use the mean() function to generate mean of my genseq object. Store this value as a separate object.
+# Use the mean() function to generate mean of my genseq object. 
+#Store this value as a separate object.
 mean_genseq <- mean(genseq) 
 
 # Show mean value
 mean_genseq 
 
-# Use the median() function to generate median of my genseq object. Store this value as a separate object.
+# Use the median() function to generate median of my genseq object. 
+#Store this value as a separate object.
 med_genseq <- median(genseq) 
 
 # Show median value
@@ -85,7 +87,7 @@ test_results <- c(TRUE,FALSE,TRUE,FALSE)
 test_results
 
 # Create data frame, combining above three vectors
-df_student_test_results <- data.frame("StudentName" = studentnames, "TestScore" = test_scores, "TestResult" = test_results) # Create a data frame, using newly created vectors
+df_student_test_results <- data.frame("StudentName" = studentnames, "TestScore" = test_scores, "TestResult" = test_results) 
 
 # Call data frame I just created
 df_student_test_results
@@ -103,11 +105,12 @@ df_student_test_results
 
 # Create function using 'ifelse' logic
 resultcheck <- function(result) {
-  print(ifelse(result < 50, FALSE, TRUE)) # If 'result < 50' is TRUE, print "FALSE." Otherwise, print "TRUE"
+  # If 'result < 50' is TRUE, print "FALSE."
+  print(ifelse(result < 50, FALSE, TRUE))  Otherwise, print "TRUE"
 }
 
 for (i in length(test_scores)) { # For every value in 'test_scores' vector...
-  resultcheck(test_scores) # Applies 'resultcheck' function and print results
+  resultcheck(test_scores) #...applies 'resultcheck' function and print results
 }
 
 resultcheck2 <- function(result) { 
@@ -123,11 +126,12 @@ resultcheck2 <- function(result) {
 #   resultcheck2(test_scores) Applies 'resultcheck' function and print results
 # }
 # 
-# But this fails because this logic only tests for the first component in the vector
+# But this fails because it only tests for the first component in the vector
 
-# Below logic resolves the error by explicitly asking to test individual components in 'test_scores' until it reaches end of length
-for (i in 1:length(test_scores)) { # For every component in 'test_scores' vector...
-  resultcheck2(test_scores[i]) # Applies 'resultcheck' function and print results
+# Below logic resolves the error by explicitly asking to test individual 
+# components in 'test_scores' until it reaches end of length
+for (i in 1:length(test_scores)) { # For every component in 'test_scores'...
+  resultcheck2(test_scores[i]) # Applies 'resultcheck' and print results
 }
 ```
 
