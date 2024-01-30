@@ -32,7 +32,7 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Ex
 
 1.  Check your working directory, load necessary packages (tidyverse, lubridate), and upload two datasets: the ECOTOX neonicotinoid dataset (ECOTOX_Neonicotinoids_Insects_raw.csv) and the Niwot Ridge NEON dataset for litter and woody debris (NEON_NIWO_Litter_massdata_2018-08_raw.csv). Name these datasets "Neonics" and "Litter", respectively. Be sure to include the subcommand to read strings in as factors.
 
-```{r,  message = FALSE}
+```{r set.up, message=FALSE}
 
 library(tidyverse) # Load tidyverse package
 library(lubridate) # Load lubridate package
@@ -71,7 +71,7 @@ and surrounding environments. Chemical use may also have unpredictable effects, 
 
 5.  What are the dimensions of the dataset?
 
-```{r}
+```{r dimensions}
 # Use dim() function to retrieve dimensions of Neonics dataset
 dim(Neonics)
 ```
@@ -80,7 +80,7 @@ dim(Neonics)
 
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 
-```{r}
+```{r neonics.effect.summary}
 # Create vector object containing summary() of Effect field from Neonics
 neonics.effect.summary <- summary(Neonics$Effect)
 # Call newly created object
@@ -96,7 +96,7 @@ neonics.effect.summary[order(neonics.effect.summary, decreasing = TRUE)]
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: The `sort()` command can sort the output of the summary command...]
 
-```{r}
+```{r neonics.species.summary}
 # Create vector object containing summary() of Species.Common.Name field from Neonics
 neonics.species.summary <- sort(summary(Neonics$Species.Common.Name), decreasing = TRUE)
 # Call newly created object
@@ -114,7 +114,7 @@ We may be interested particularly in bees due to their prominent role in pollina
 
 8.  Concentrations are always a numeric value. What is the class of `Conc.1..Author.` column in the dataset, and why is it not numeric?
 
-```{r}
+```{r author.class}
 # Check field class using class() function
 class(Neonics$Conc.1..Author.)
 ```
@@ -125,7 +125,7 @@ class(Neonics$Conc.1..Author.)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
-```{r}
+```{r publication.plot}
 # Create new object to save plot
 freqPlot.publications1 <- ggplot(Neonics, aes(x = Publication.Year)) +
   # Frequency plot type
@@ -144,7 +144,7 @@ freqPlot.publications1
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
 
-```{r}
+```{r publication.plot2}
 freqPlot.publications2 <- ggplot(Neonics, aes(x = Publication.Year, color = Test.Location)) +
   # Frequency plot type
   geom_freqpoly() +
@@ -174,7 +174,7 @@ Artificial labs are stable, as are undeterminable fields.
 
 [**TIP**: Add `theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))` to the end of your plot command to rotate and align the X-axis labels...]
 
-```{r}
+```{r bargraph.plot}
 # Create and save plot
 barGraph.endpoints <- ggplot(Neonics, aes(x = Endpoint))+
   # Set bar chart type
@@ -208,14 +208,14 @@ controls according to author's reported statistical test
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018.
 
-```{r}
+```{r litter.collectDate}
 class(Litter$collectDate)
 
 Litter$collectDate <- as.Date(Litter$collectDate, "%Y-%m-%d")
 Litter$collectDate
 ```
 
-```{r}
+```{r litter.class}
 class(Litter$collectDate)
 
 unique(Litter$collectDate)
@@ -225,7 +225,7 @@ unique(Litter$collectDate)
 
 13. Using the `unique` function, determine how many plots were sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
-```{r}
+```{r unique.litter}
 # Retrieve unique values in plot ID field
 unique(Litter$plotID)
 # Retrieve summary stats of plot ID field
@@ -241,7 +241,7 @@ The summary() function returns each plot ID as well as the number of occurrences
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 
-```{r}
+```{r bargraph.functionalgroup}
 # Create and save bar graph
 barGraph.functionalGroup <- ggplot(Litter, aes(x = functionalGroup)) +
   # Set geometry bar graph type
@@ -265,7 +265,7 @@ barGraph.functionalGroup
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup.
 
-```{r}
+```{r box.violin.plot}
 # Create boxplot
 boxPlot.functionalGroup <- ggplot(Litter, aes(x = dryMass, y = functionalGroup)) +
   # Set boxplot type
