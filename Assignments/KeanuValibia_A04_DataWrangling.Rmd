@@ -134,9 +134,9 @@ EPAair.combined.filtered <-
   EPAair.combined %>%
   filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
   group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
-  summarise(aqiMean = mean(DAILY_AQI_VALUE, na.rm = TRUE),
-            latMean = mean(SITE_LATITUDE, na.rm = TRUE),
-            longMean = mean(SITE_LONGITUDE), na.rm = TRUE) %>%
+  summarise(aqiMean = mean(DAILY_AQI_VALUE),
+            latMean = mean(SITE_LATITUDE),
+            longMean = mean(SITE_LONGITUDE)) %>%
   mutate(Month = month(mdy(Date))) %>%
   mutate(Year = year(mdy(Date)))
 
@@ -150,7 +150,7 @@ dim(EPAair.combined.filtered.spread)
 
 #11
 
-write.csv("~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
+write.csv(EPAair.combined.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
 ```
 
 
