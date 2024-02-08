@@ -36,20 +36,24 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
 
 ```{r setup, message = FALSE}
 #1a
+#activate required packages
 library('tidyverse')
 library('lubridate')
 library('here')
 
 #1b 
+#retrieve working directory
 getwd()
 
 #1c 
+#read in csv files into data frames
 EPAair.o3.nc2018 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_O3_NC2018_raw.csv", stringsAsFactors = TRUE)
 EPAair.o3.nc2019 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_O3_NC2019_raw.csv", stringsAsFactors = TRUE)
 EPAair.pm25.nc2018 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_PM25_NC2018_raw.csv", stringsAsFactors = TRUE)
 EPAair.pm25.nc2019 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_PM25_NC2019_raw.csv", stringsAsFactors = TRUE)
 
 #2
+#quickly review imports
 glimpse(EPAair.o3.nc2018)
 glimpse(EPAair.o3.nc2019)
 glimpse(EPAair.pm25.nc2018)
@@ -68,15 +72,17 @@ glimpse(EPAair.pm25.nc2019)
 
 ```{r}
 #3
-EPAair.o3.nc2018$Date <- as.Date(EPAair.o3.nc2018$Date)
+#convert Date field from factor to date class, taking into account format
+EPAair.o3.nc2018$Date <- as.Date(EPAair.o3.nc2018$Date, format = '%m/%d/%Y')
 
-EPAair.o3.nc2019$Date <- as.Date(EPAair.o3.nc2019$Date)
+EPAair.o3.nc2019$Date <- as.Date(EPAair.o3.nc2019$Date, format = '%m/%d/%Y')
  
-EPAair.pm25.nc2018$Date <- as.Date(EPAair.pm25.nc2018$Date)
+EPAair.pm25.nc2018$Date <- as.Date(EPAair.pm25.nc2018$Date, format = '%m/%d/%Y')
  
-EPAair.pm25.nc2019$Date <- as.Date(EPAair.pm25.nc2019$Date)
+EPAair.pm25.nc2019$Date <- as.Date(EPAair.pm25.nc2019$Date, format = '%m/%d/%Y')
 
 #4
+#select fields to keep
 EPAair.o3.nc2018.filtered <- select(EPAair.o3.nc2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
 EPAair.o3.nc2019.filtered <- select(EPAair.o3.nc2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
@@ -86,11 +92,13 @@ EPAair.pm25.nc2018.filtered <- select(EPAair.pm25.nc2018, Date, DAILY_AQI_VALUE,
 EPAair.pm25.nc2019.filtered <- select(EPAair.pm25.nc2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
 
 #5
+#update aws parameter values in pm2.5 data frames
 EPAair.pm25.nc2018.filtered$AQS_PARAMETER_DESC <- "PM2.5"
 
 EPAair.pm25.nc2019.filtered$AQS_PARAMETER_DESC <- "PM2.5"
 
 #6
+#write new csv files into processed data folder
 write.csv(EPAair.o3.nc2018.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_NC2018_processed.csv")
 
 write.csv(EPAair.o3.nc2019.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_NC2019_processed.csv")
@@ -123,7 +131,7 @@ write.csv(EPAair.pm25.nc2019.filtered, row.names = FALSE, file = "~/R/R Projects
 
 ```{r}
 #7 
-
+#combine all files into a single data frame
 EPAair.combined <- rbind(EPAair.o3.nc2018.filtered, EPAair.o3.nc2019.filtered, EPAair.pm25.nc2018.filtered, EPAair.pm25.nc2019.filtered)
 
 glimpse(EPAair.combined)
@@ -132,24 +140,30 @@ glimpse(EPAair.combined)
 
 EPAair.combined.filtered <- 
   EPAair.combined %>%
+  #filter site name field for specific values. Drop records that do not include the listed values
   filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
+  #group records within selected fields
   group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
-  summarise(aqiMean = mean(DAILY_AQI_VALUE),
-            latMean = mean(SITE_LATITUDE),
-            longMean = mean(SITE_LONGITUDE)) %>%
-  mutate(Month = month(mdy(Date))) %>%
-  mutate(Year = year(mdy(Date)))
+  #take average of selected fields
+  summarise(aqiMean = mean(DAILY_AQI_VALUE, na.rm = TRUE),
+            latMean = mean(SITE_LATITUDE, na.rm = TRUE),
+            longMean = mean(SITE_LONGITUDE, na.rm = TRUE),
+            .groups = 'keep') %>%
+  #create new month field based on Date field
+  mutate(Month = month(ymd(Date))) %>%
+  #create new year field based on Date field
+  mutate(Year = year(ymd(Date)))
 
 #9
-
+#turn ozone and pm2.5 values into fields, using aqi mean as value
 EPAair.combined.filtered.spread <- spread(EPAair.combined.filtered, AQS_PARAMETER_DESC, aqiMean)
 
 #10
-
+#call dimensions of new data frame
 dim(EPAair.combined.filtered.spread)
 
 #11
-
+#upload data frame to csv in processed data folder
 write.csv(EPAair.combined.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
 ```
 
@@ -165,14 +179,17 @@ write.csv(EPAair.combined.filtered, row.names = FALSE, file = "~/R/R Projects/ED
 #12
 EPAair.summary <-
   EPAair.combined.filtered.spread %>%
+  #group by selected fields
   group_by(Site.Name,Month,Year) %>%
+  #create new fields based on the mean of ozone and pm2.5 values
   summarise(meanOzone = mean(Ozone),
             meanPm = mean(PM2.5),
             .groups = "keep") %>%
+  #drop any records that have NA value in Ozone specifically
   drop_na(meanOzone)
 
 #13
-
+#call dimensions of new data frame
 dim(EPAair.summary)
 ```
 
