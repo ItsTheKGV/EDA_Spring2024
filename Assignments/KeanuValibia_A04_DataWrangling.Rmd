@@ -21,7 +21,7 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 ## Set up your session 
 
-```{r setup, include=FALSE}
+```{r setup1, include=FALSE}
 #install.packages('formatR')
 knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
 ```
@@ -34,7 +34,7 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
 
 2. Apply the `glimpse()` function to reveal the dimensions, column names, and structure of each dataset. 
 
-```{r setup, message = FALSE}
+```{r setup2, message = FALSE}
 #1a
 #activate required packages
 library('tidyverse')
@@ -70,7 +70,7 @@ glimpse(EPAair.pm25.nc2019)
 
 6. Save all four processed datasets in the Processed folder. Use the same file names as the raw files but replace "raw" with "processed".
 
-```{r}
+```{r wrangle}
 #3
 #convert Date field from factor to date class, taking into account format
 EPAair.o3.nc2018$Date <- as.Date(EPAair.o3.nc2018$Date, format = '%m/%d/%Y')
@@ -129,7 +129,7 @@ write.csv(EPAair.pm25.nc2019.filtered, row.names = FALSE, file = "~/R/R Projects
 
 11. Save your processed dataset with the following file name: "EPAair_O3_PM25_NC1819_Processed.csv"
 
-```{r}
+```{r combine}
 #7 
 #combine all files into a single data frame
 EPAair.combined <- rbind(EPAair.o3.nc2018.filtered, EPAair.o3.nc2019.filtered, EPAair.pm25.nc2018.filtered, EPAair.pm25.nc2019.filtered)
@@ -174,7 +174,7 @@ write.csv(EPAair.combined.filtered, row.names = FALSE, file = "~/R/R Projects/ED
 
 13. Call up the dimensions of the summary dataset.
 
-```{r}
+```{r summary}
 
 #12
 EPAair.summary <-
