@@ -23,7 +23,8 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Wr
 
 ```{r setup1, include=FALSE}
 #install.packages('formatR')
-knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
+#library('formatR')
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=50), tidy=TRUE)
 ```
 
 1a. Load the `tidyverse`,  `lubridate`, and `here` packages into your session.
@@ -47,10 +48,18 @@ getwd()
 
 #1c 
 #read in csv files into data frames
-EPAair.o3.nc2018 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_O3_NC2018_raw.csv", stringsAsFactors = TRUE)
-EPAair.o3.nc2019 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_O3_NC2019_raw.csv", stringsAsFactors = TRUE)
-EPAair.pm25.nc2018 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_PM25_NC2018_raw.csv", stringsAsFactors = TRUE)
-EPAair.pm25.nc2019 <- read.csv("~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_PM25_NC2019_raw.csv", stringsAsFactors = TRUE)
+EPAair.o3.nc2018 <- read.csv(
+  "~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_O3_NC2018_raw.csv", 
+  stringsAsFactors = TRUE)
+EPAair.o3.nc2019 <- read.csv(
+  "~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_O3_NC2019_raw.csv", 
+  stringsAsFactors = TRUE)
+EPAair.pm25.nc2018 <- read.csv(
+  "~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_PM25_NC2018_raw.csv", 
+  stringsAsFactors = TRUE)
+EPAair.pm25.nc2019 <- read.csv(
+  "~/R/R Projects/EDA_Spring2024/Data/Raw/EPAair_PM25_NC2019_raw.csv", 
+  stringsAsFactors = TRUE)
 
 #2
 #quickly review imports
@@ -99,13 +108,17 @@ EPAair.pm25.nc2019.filtered$AQS_PARAMETER_DESC <- "PM2.5"
 
 #6
 #write new csv files into processed data folder
-write.csv(EPAair.o3.nc2018.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_NC2018_processed.csv")
+write.csv(EPAair.o3.nc2018.filtered, row.names = FALSE, 
+          file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_NC2018_processed.csv")
 
-write.csv(EPAair.o3.nc2019.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_NC2019_processed.csv")
+write.csv(EPAair.o3.nc2019.filtered, row.names = FALSE, 
+          file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_NC2019_processed.csv")
 
-write.csv(EPAair.pm25.nc2018.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_PM25_NC2018_processed.csv")
+write.csv(EPAair.pm25.nc2018.filtered, row.names = FALSE, 
+          file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_PM25_NC2018_processed.csv")
 
-write.csv(EPAair.pm25.nc2019.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_PM25_NC2019_processed.csv")
+write.csv(EPAair.pm25.nc2019.filtered, row.names = FALSE, 
+          file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_PM25_NC2019_processed.csv")
 ```
 
 
@@ -132,7 +145,10 @@ write.csv(EPAair.pm25.nc2019.filtered, row.names = FALSE, file = "~/R/R Projects
 ```{r combine}
 #7 
 #combine all files into a single data frame
-EPAair.combined <- rbind(EPAair.o3.nc2018.filtered, EPAair.o3.nc2019.filtered, EPAair.pm25.nc2018.filtered, EPAair.pm25.nc2019.filtered)
+EPAair.combined <- rbind(EPAair.o3.nc2018.filtered, 
+                         EPAair.o3.nc2019.filtered, 
+                         EPAair.pm25.nc2018.filtered, 
+                         EPAair.pm25.nc2019.filtered)
 
 glimpse(EPAair.combined)
 
@@ -141,7 +157,8 @@ glimpse(EPAair.combined)
 EPAair.combined.filtered <- 
   EPAair.combined %>%
   #filter site name field for specific values. Drop records that do not include the listed values
-  filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
+  filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", 
+  "Millbrook School")) %>%
   #group records within selected fields
   group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
   #take average of selected fields
