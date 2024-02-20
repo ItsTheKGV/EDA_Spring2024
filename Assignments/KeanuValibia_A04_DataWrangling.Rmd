@@ -181,7 +181,7 @@ dim(EPAair.combined.filtered.spread)
 
 #11
 #upload data frame to csv in processed data folder
-write.csv(EPAair.combined.filtered, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
+write.csv(EPAair.combined.filtered.spread, row.names = FALSE, file = "~/R/R Projects/EDA_Spring2024/Data/Processed/EPAair_O3_PM25_NC1819_Processed.csv")
 ```
 
 
