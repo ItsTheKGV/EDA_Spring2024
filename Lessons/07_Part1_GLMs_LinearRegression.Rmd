@@ -44,7 +44,7 @@ options(scipen = 4)
 library(here)
 here()
 
-PeterPaul.chem.nutrients <- read.csv(here("Data/Processed_KEY/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv"), stringsAsFactors = TRUE)
+PeterPaul.chem.nutrients <- read.csv(here("Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv"), stringsAsFactors = TRUE)
 
 # Set theme
 mytheme <- theme_classic(base_size = 14) +
@@ -115,7 +115,7 @@ The option best suited for communicating findings is to plot the explanatory and
 irradiancebydepth <- 
   ggplot(PeterPaul.chem.nutrients, aes(x = depth, y = irradianceWater)) +
   ylim(0, 2000) +
-  geom_point() 
+  geom_point()
 print(irradiancebydepth) 
 ```
 
@@ -199,7 +199,7 @@ Paul.naomit <- PeterPaul.chem.nutrients %>%
 
 TPAIC <- lm(data = Paul.naomit, tp_ug ~ depth + dissolvedOxygen + 
               temperature_C + tn_ug + po4)
-
+TPAIC
 #Choose a model by AIC in a Stepwise Algorithm
 step(TPAIC)
 TPmodel <- lm(data = Paul.naomit, tp_ug ~ dissolvedOxygen + temperature_C + tn_ug)
